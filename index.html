@@ -8,11 +8,11 @@
     background: linear-gradient(180deg, #ffe4f2, #ffd6ec, #fbcfe8);
     font-family: 'Trebuchet MS', sans-serif;
     text-align: center;
-    padding: 50px;
+    padding: 50px 20px;
     overflow: hidden;
-    font-size: 1.2rem;
   }
 
+  /* Falling petals */
   .petal {
     position: fixed;
     top: -10vh;
@@ -27,6 +27,7 @@
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
+  /* Flower row */
   .flowers {
     display: flex;
     justify-content: center;
@@ -34,11 +35,9 @@
     margin-bottom: 40px;
     position: relative;
     z-index: 2;
-    flex-wrap: wrap;
   }
-
   .flower {
-    font-size: 4rem;
+    font-size: 70px;
     opacity: 0;
     transform: scale(0);
     animation: grow 1s forwards;
@@ -52,15 +51,16 @@
     to { opacity: 1; transform: scale(1); }
   }
 
+  /* Reveal button */
   button#revealButton {
-    padding: 1em 2em;
+    padding: 16px 34px;
     border: none;
     background: linear-gradient(45deg, #f472b6, #ec4899, #f472b6);
     background-size: 300% 300%;
     color: white;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 1.4rem;
+    font-size: 22px;
     position: relative;
     z-index: 2;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
@@ -72,6 +72,7 @@
     100% { background-position: 0% 50%; }
   }
 
+  /* Dropdown message */
   .dropdown {
     overflow: hidden;
     max-height: 0;
@@ -86,11 +87,18 @@
     position: relative;
     box-shadow: 0 0 20px rgba(255,182,193,0.4);
   }
-
   .dropdown.show {
-    max-height: 300px;
-    padding: 30px;
+    max-height: 400px;
+    padding: 40px 25px;
     animation: fadeIn 1s forwards, sparkle 2s infinite;
+  }
+  .dropdown h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  .dropdown p {
+    font-size: 1.3rem;
+    line-height: 1.6;
   }
 
   @keyframes fadeIn {
@@ -102,9 +110,14 @@
     50% { box-shadow: 0 0 30px rgba(255,192,203,0.8); }
   }
 
-  .dropdown h2 { font-size: 1.8rem; }
-  .dropdown p { font-size: 1.2rem; }
+  /* Mobile font scaling */
+  @media (max-width: 600px) {
+    .dropdown h2 { font-size: 2.3rem; }
+    .dropdown p { font-size: 1.5rem; }
+    #revealButton { font-size: 1.2rem; padding: 18px 36px; }
+  }
 
+  /* Glitter sparkles */
   .glitter {
     position: fixed;
     width: 6px;
@@ -115,13 +128,13 @@
     opacity: 0.7;
     z-index: 1;
   }
-
   @keyframes float {
     0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
     20% { opacity: 1; }
     100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
   }
 
+  /* Fireworks */
   .firework {
     position: absolute;
     width: 4px;
@@ -133,12 +146,10 @@
     animation: explode 800ms ease-out forwards;
   }
   @keyframes explode {
-    to {
-      transform: translate(var(--x), var(--y)) scale(0.5);
-      opacity: 0;
-    }
+    to { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0; }
   }
 
+  /* Music button */
   #musicBtn {
     position: fixed;
     top: 20px;
@@ -147,48 +158,35 @@
     color: white;
     border: none;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     cursor: pointer;
     z-index: 5;
-    transition: box-shadow 0.3s;
   }
   #musicBtn.playing {
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
   #ytPlayer {
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-  }
-
-  @media (max-width: 600px) {
-    body { font-size: 1.4rem; padding: 20px; }
-    .flowers { flex-direction: column; gap: 20px; }
-    .flower { font-size: 3.5rem; }
-    button#revealButton { font-size: 1.6rem; padding: 1.2em 2.4em; }
-    .dropdown h2 { font-size: 2rem; }
-    .dropdown p { font-size: 1.4rem; }
+    width: 1px; height: 1px; opacity: 0; pointer-events: none; position: absolute;
   }
 </style>
 </head>
 <body>
 
+<!-- petals -->
 <script>
-  for (let i = 0; i < 20; i++) {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-    petal.textContent = '🌸';
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.animationDuration = (6 + Math.random()*4) + 's';
-    petal.style.fontSize = (18 + Math.random()*10) + 'px';
-    document.body.appendChild(petal);
-  }
+for (let i = 0; i < 20; i++) {
+  const petal = document.createElement('div');
+  petal.className = 'petal';
+  petal.textContent = '🌸';
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = (6 + Math.random()*4) + 's';
+  petal.style.fontSize = (18 + Math.random()*10) + 'px';
+  document.body.appendChild(petal);
+}
 </script>
 
 <div class="flowers">
@@ -199,91 +197,91 @@
 </div>
 
 <button id="revealButton">Reveal a Message 🌟</button>
+
 <div class="dropdown" id="message">
-  <h2>You are blooming beautifully 🌸</h2>
-  <p>Keep shining and growing at your own pace. ✨</p>
+  <h1>You are blooming beautifully 🌸</h1>
+  <h3>
+    <p>Keep shining and growing at your own pace. ✨</p>
+  </h3>
 </div>
 
 <div id="ytPlayer"></div>
 <button id="musicBtn">🎵</button>
 
 <script>
-  const btn = document.getElementById('revealButton');
-  const message = document.getElementById('message');
-  const musicBtn = document.getElementById('musicBtn');
-  let musicPlaying = false;
-  let player, apiReady = false, userInteracted = false;
+const btn = document.getElementById('revealButton');
+const message = document.getElementById('message');
+const musicBtn = document.getElementById('musicBtn');
+let musicPlaying = false;
+let player;
 
-  const tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.body.appendChild(tag);
+// YouTube API
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
 
-  function onYouTubeIframeAPIReady() {
-    apiReady = true;
-    player = new YT.Player('ytPlayer', {
-      videoId: 'cOJ2wy8juu4',
-      playerVars: { autoplay: 0, loop: 1, playlist: 'cOJ2wy8juu4', controls: 0 }
-    });
-  }
-
-  document.body.addEventListener('click', () => {
-    userInteracted = true;
-  }, { once: true });
-
-  btn.addEventListener('click', () => {
-    message.classList.toggle('show');
-    if (message.classList.contains('show')) {
-      launchFireworks();
-      if (!musicPlaying && player && userInteracted) {
-        player.playVideo();
-        musicBtn.classList.add('playing');
-        musicPlaying = true;
-      }
-    } else {
-      if (musicPlaying && player) {
-        player.pauseVideo();
-        musicBtn.classList.remove('playing');
-        musicPlaying = false;
-      }
-    }
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('ytPlayer', {
+    videoId: 'cOJ2wy8juu4',
+    playerVars: { autoplay: 0, loop: 1, playlist: 'cOJ2wy8juu4', controls: 0 }
   });
+}
 
-  musicBtn.addEventListener('click', () => {
-    if (!player || !userInteracted) return;
-    if (musicPlaying) {
-      player.pauseVideo();
-      musicBtn.classList.remove('playing');
-      musicPlaying = false;
-    } else {
+btn.addEventListener('click', () => {
+  message.classList.toggle('show');
+  if (message.classList.contains('show')) {
+    launchFireworks();
+    if (!musicPlaying && player) {
       player.playVideo();
       musicBtn.classList.add('playing');
       musicPlaying = true;
     }
-  });
-
-  for (let i = 0; i < 40; i++) {
-    const glitter = document.createElement('div');
-    glitter.className = 'glitter';
-    glitter.style.left = Math.random() * 100 + 'vw';
-    glitter.style.animationDelay = Math.random() * 5 + 's';
-    glitter.style.animationDuration = 3 + Math.random() * 3 + 's';
-    document.body.appendChild(glitter);
-  }
-
-  function launchFireworks() {
-    for (let i = 0; i < 20; i++) {
-      const spark = document.createElement('div');
-      spark.className = 'firework';
-      spark.style.left = '50%';
-      spark.style.top = '60%';
-      const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * 150 + 50;
-      spark.style.setProperty('--x', Math.cos(angle) * distance + 'px');
-      spark.style.setProperty('--y', Math.sin(angle) * distance + 'px');
-      document.body.appendChild(spark);
-      setTimeout(() => spark.remove(), 800);
+  } else {
+    if (musicPlaying && player) {
+      player.pauseVideo();
+      musicBtn.classList.remove('playing');
+      musicPlaying = false;
     }
   }
+});
+
+musicBtn.addEventListener('click', () => {
+  if (!player) return;
+  if (musicPlaying) {
+    player.pauseVideo();
+    musicBtn.classList.remove('playing');
+    musicPlaying = false;
+  } else {
+    player.playVideo();
+    musicBtn.classList.add('playing');
+    musicPlaying = true;
+  }
+});
+
+// glitter sparkles
+for (let i = 0; i < 40; i++) {
+  const glitter = document.createElement('div');
+  glitter.className = 'glitter';
+  glitter.style.left = Math.random() * 100 + 'vw';
+  glitter.style.animationDelay = Math.random() * 5 + 's';
+  glitter.style.animationDuration = 3 + Math.random() * 3 + 's';
+  document.body.appendChild(glitter);
+}
+
+function launchFireworks() {
+  for (let i = 0; i < 20; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'firework';
+    spark.style.left = '50%';
+    spark.style.top = '60%';
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = Math.random() * 150 + 50;
+    spark.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+    spark.style.setProperty('--y', Math.sin(angle) * distance + 'px');
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 800);
+  }
+}
 </script>
 </body>
 </html>
