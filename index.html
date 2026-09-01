@@ -193,17 +193,17 @@
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
-  /* YouTube Frame Container */
-  #ytPlayer {
-    width: 100%;
-    max-width: 320px;
-    height: 180px;
-    margin: 25px auto 0 auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(219, 39, 119, 0.2);
-    border: 3px solid #fbcfe8;
-    display: block;
-    background: #000;
+  /* Invisible API Frame Container - Keeps video active for desktop browser security policies */
+  .player-wrapper {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    opacity: 0.001; 
+    pointer-events: none;
+    bottom: 0;
+    left: 0;
+    z-index: -999;
   }
 </style>
 </head>
@@ -260,22 +260,12 @@ for (let i = 0; i < 20; i++) {
   
   <p>You're still my favorite teacher, Ma'am Isabela, you will always be. You know the rest. Hindi ko na papahabain pa kasi baka ma-block mo na ako sa showbiz na drama ko. 
     Again, happy birthday, Ma'am Maki! I hope you get what you want in life like a quantum particle does. 💗✨</p>
-
-  <!-- Embedded YouTube Audio Box inside the card -->
-  <div style="margin-top: 30px; text-align: center;">
-    <iframe id="ytPlayer" 
-            src="https://youtube.com" 
-            frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen>
-    </iframe>
-  </div>
 </div>
 
-  <!-- HTML Audio element using a secure direct music stream -->
-<audio id="bgMusic" loop>
-  <source src="https://soundhelix.com" type="audio/mpeg">
-</audio>
+<!-- Hidden API IFrame Hook -->
+<div class="player-wrapper">
+  <div id="ytPlayer"></div>
+</div>
 
 <button id="musicBtn">🎵</button>
 
@@ -283,24 +273,47 @@ for (let i = 0; i < 20; i++) {
 const btn = document.getElementById('revealButton');
 const message = document.getElementById('message');
 const musicBtn = document.getElementById('musicBtn');
-const bgMusic = document.getElementById('bgMusic');
 let musicPlaying = false;
+let player;
 
-// Configures player volume safely
-bgMusic.volume = 0.8;
+// Official asynchronous API script loader hook
+const tag = document.createElement('script');
+tag.src = "https://youtube.com";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+if (firstScriptTag && firstScriptTag.parentNode) {
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+} else {
+  document.head.appendChild(tag);
+}
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('ytPlayer', {
+    videoId: 'DMgAcB0hXn0',
+    playerVars: { 
+      autoplay: 0, 
+      loop: 1, 
+      playlist: 'DMgAcB0hXn0', 
+      controls: 0,
+      start: 5,
+      mute: 0
+    },
+    events: {
+      'onReady': (e) => {
+        e.target.setVolume(100);
+      }
+    }
+  });
+}
 
 function toggleMusic(play) {
+  if (!player || typeof player.playVideo !== 'function') return;
+  
   if (play) {
-    bgMusic.play()
-      .then(() => {
-        musicBtn.classList.add('playing');
-        musicPlaying = true;
-      })
-      .catch((error) => {
-        console.log("Audio block active. Waiting for user interaction:", error);
-      });
+    player.playVideo();
+    musicBtn.classList.add('playing');
+    musicPlaying = true;
   } else {
-    bgMusic.pause();
+    player.pauseVideo();
     musicBtn.classList.remove('playing');
     musicPlaying = false;
   }
