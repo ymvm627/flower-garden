@@ -266,12 +266,14 @@ const musicBtn = document.getElementById('musicBtn');
 let musicPlaying = false;
 let player;
 
-// Securely initialize YouTube API
-if (!window.YT) {
-  const tag = document.createElement('script');
-  tag.src = "https://youtube.com";
-  const firstScriptTag = document.getElementsByTagName('script')[0];
+// Fix: Correctly grab the first script tag to inject the YouTube API safely
+const tag = document.createElement('script');
+tag.src = "https://youtube.com";
+const firstScriptTag = document.getElementsByTagName('script')[0]; // Added [0] here to prevent the crash
+if (firstScriptTag && firstScriptTag.parentNode) {
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+} else {
+  document.head.appendChild(tag);
 }
 
 function onYouTubeIframeAPIReady() {
@@ -286,21 +288,18 @@ function onYouTubeIframeAPIReady() {
       mute: 0
     },
     events: {
-      'onReady': onPlayerReady,
-      'onError': (e) => console.log("YT Player Error:", e)
+      'onReady': (e) => {
+        e.target.setVolume(100);
+      }
     }
   });
-}
-
-function onPlayerReady(event) {
-  // Configures volume to ensure it isn't muted by default
-  event.target.setVolume(80);
 }
 
 function toggleMusic(play) {
   if (!player || typeof player.playVideo !== 'function') return;
   
   if (play) {
+    player.unMute(); 
     player.playVideo();
     musicBtn.classList.add('playing');
     musicPlaying = true;
@@ -315,13 +314,9 @@ btn.addEventListener('click', () => {
   message.classList.toggle('show');
   if (message.classList.contains('show')) {
     launchFireworks();
-    if (!musicPlaying) {
-      toggleMusic(true);
-    }
+    toggleMusic(true);
   } else {
-    if (musicPlaying) {
-      toggleMusic(false);
-    }
+    toggleMusic(false);
   }
 });
 
@@ -354,6 +349,7 @@ function launchFireworks() {
   }
 }
 </script>
+
 </html>
 
 
