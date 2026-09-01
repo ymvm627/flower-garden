@@ -73,6 +73,7 @@
   }
 
   /* Dropdown message */
+    /* Dropdown message */
   .dropdown {
     overflow: hidden;
     max-height: 0;
@@ -89,9 +90,9 @@
     box-shadow: 0 0 20px rgba(255,182,193,0.4);
   }
   .dropdown.show {
-    max-height: 2000px; /* Increased drastically to make sure your full message fits perfectly */
+    max-height: 2000px; /* Drastically increased so your full message fits perfectly */
     padding: 40px 25px;
-    overflow-y: auto; /* Fallback scrollbar just in case it runs on ultra-small screens */
+    overflow-y: auto; /* Adds a scrollbar if the screen is ultra-small */
     animation: fadeIn 1s forwards, sparkle 2s infinite;
   }
   .dropdown h1 {
@@ -102,8 +103,8 @@
   .dropdown p {
     font-size: 1.15rem;
     line-height: 1.7;
-    text-align: left; /* Makes long letters much easier and cleaner to read */
-    text-indent: 20px; /* Indents paragraphs beautifully */
+    text-align: left; /* Changes text alignment from center to left for readability */
+    text-indent: 20px; /* Indents paragraphs like a physical letter */
     margin-bottom: 15px;
     color: #4b5563;
   }
