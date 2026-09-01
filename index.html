@@ -272,44 +272,35 @@ for (let i = 0; i < 20; i++) {
   </div>
 </div>
 
+  <!-- HTML Audio element using a secure direct music stream -->
+<audio id="bgMusic" loop>
+  <source src="https://soundhelix.com" type="audio/mpeg">
+</audio>
+
 <button id="musicBtn">🎵</button>
 
 <script>
 const btn = document.getElementById('revealButton');
 const message = document.getElementById('message');
 const musicBtn = document.getElementById('musicBtn');
+const bgMusic = document.getElementById('bgMusic');
 let musicPlaying = false;
-let player;
 
-// Fixed Script Tag Injection Engine
-const tag = document.createElement('script');
-tag.src = "https://youtube.com";
-const firstScriptTag = document.getElementsByTagName('script')[0]; // FIX: Correctly targeting the specific first element array item
-if (firstScriptTag && firstScriptTag.parentNode) {
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-} else {
-  document.head.appendChild(tag);
-}
-
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('ytPlayer', {
-    events: {
-      'onReady': (e) => {
-        e.target.setVolume(100);
-      }
-    }
-  });
-}
+// Configures player volume safely
+bgMusic.volume = 0.8;
 
 function toggleMusic(play) {
-  if (!player || typeof player.playVideo !== 'function') return;
-  
   if (play) {
-    player.playVideo();
-    musicBtn.classList.add('playing');
-    musicPlaying = true;
+    bgMusic.play()
+      .then(() => {
+        musicBtn.classList.add('playing');
+        musicPlaying = true;
+      })
+      .catch((error) => {
+        console.log("Audio block active. Waiting for user interaction:", error);
+      });
   } else {
-    player.pauseVideo();
+    bgMusic.pause();
     musicBtn.classList.remove('playing');
     musicPlaying = false;
   }
