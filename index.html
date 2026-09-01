@@ -192,9 +192,18 @@
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
+   /* Music player wrapper fix */
   #ytPlayer {
-    width: 1px; height: 1px; opacity: 0; pointer-events: none; position: absolute;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px; 
+    height: 200px; 
+    visibility: hidden; /* Keeps it active in the DOM so the API injects the music player properly */
+    pointer-events: none;
+    z-index: -100;
   }
+
 </style>
 
 </head>
