@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Message For You🌸</title>
+<title>Magical Flower Garden</title>
 <style>
-  /* Base Reset & Universal Laptop Sizing Fixes */
+  /* Base Reset & Universal Laptop Layout Alignment */
   * {
     box-sizing: border-box;
     margin: 0;
@@ -18,8 +18,8 @@
     text-align: center;
     padding: 50px 20px;
     min-height: 100vh;
-    height: auto !important; /* Forces layout to grow dynamically on laptops */
-    overflow-y: auto; /* Unlocks vertical scrolling for desktops */
+    height: auto !important; /* Lets the background area expand with text on laptops */
+    overflow-y: auto; /* Restores desktop scrollbars safely */
     overflow-x: hidden;
   }
 
@@ -83,9 +83,9 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Dropdown message - Fully optimized for Large Laptop Displays */
+  /* Dropdown message - Completely uncapped for long birthday letters */
   .dropdown {
-    display: none; /* Replaced restrictive max-height with display:block to prevent cutting off text */
+    display: none; /* Swapped from max-height rules to fix desktop rendering breaks */
     opacity: 0;
     transform: translateY(-10px);
     background: #fff0f6;
@@ -93,32 +93,29 @@
     padding: 40px 35px;
     margin: 30px auto;
     width: 90%;
-    max-width: 750px; /* Perfectly centered letter box on laptop view */
+    max-width: 750px; /* Centers the layout nicely on laptop screen canvases */
     height: auto !important;
-    max-height: none !important;
+    max-height: none !important; /* Overrides any previous fixed constraints */
     z-index: 2;
     position: relative;
     box-shadow: 0 0 20px rgba(255,182,193,0.4);
   }
-  
   .dropdown.show {
-    display: block; 
+    display: block;
     animation: fadeIn 0.6s ease forwards, sparkle 2s infinite;
   }
-  
   .dropdown h1 {
     font-size: 2.2rem;
-    margin-bottom: 25px;
     color: #db2777;
+    margin-bottom: 25px;
   }
-  
   .dropdown p {
     font-size: 1.15rem;
     line-height: 1.8;
-    text-align: left; /* Left align is much more formal and cleaner on desktops */
-    text-indent: 30px; /* Beautiful paragraph indentations like a physical card */
-    margin-bottom: 20px;
     color: #4b5563;
+    text-align: left; /* Left align provides much smoother layout readability on laptops */
+    text-indent: 30px; /* Beautiful indents at the start of paragraphs */
+    margin-bottom: 20px;
   }
 
   @keyframes fadeIn {
@@ -130,7 +127,7 @@
     50% { box-shadow: 0 0 30px rgba(255,192,203,0.8); }
   }
 
-  /* Responsive styling overrides for phones/tablets */
+  /* Mobile/Tablet responsive adjustments */
   @media (max-width: 768px) {
     body { padding: 30px 15px; }
     .dropdown { padding: 30px 20px; }
@@ -193,23 +190,19 @@
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
-  /* Hidden API Wrapper: Kept at valid size for browser security compliance but thrown off-screen */
-  .player-wrapper {
-    position: fixed;
-    width: 250px;
-    height: 250px;
-    overflow: hidden;
-    opacity: 0.001; /* Invisible to her eyes */
-    pointer-events: none;
-    bottom: -600px; /* Safely out of sight */
-    left: -600px;
-    z-index: -9999;
+  /* Original Audio Layout Specifications Restored */
+  #ytPlayer {
+    width: 1px; 
+    height: 1px; 
+    opacity: 0; 
+    pointer-events: none; 
+    position: absolute;
   }
 </style>
 </head>
 <body>
 
-<!-- Falling petals rendering loop -->
+<!-- petals -->
 <script>
 for (let i = 0; i < 20; i++) {
   const petal = document.createElement('div');
@@ -262,11 +255,7 @@ for (let i = 0; i < 20; i++) {
     Again, happy birthday, Ma'am Maki! I hope you get what you want in life like a quantum particle does. 💗✨</p>
 </div>
 
-<!-- Invisible Player Wrapper containing the YouTube Element Core -->
-<div class="player-wrapper">
-  <div id="ytPlayer"></div>
-</div>
-
+<div id="ytPlayer"></div>
 <button id="musicBtn">🎵</button>
 
   <script>
@@ -276,63 +265,50 @@ const musicBtn = document.getElementById('musicBtn');
 let musicPlaying = false;
 let player;
 
-// Official asynchronous YouTube API loader engine injection
+// YouTube API
 const tag = document.createElement('script');
 tag.src = "https://youtube.com";
-const firstScriptTag = document.getElementsByTagName('script');
-if (firstScriptTag && firstScriptTag.parentNode) {
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-} else {
-  document.head.appendChild(tag);
-}
+document.body.appendChild(tag);
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytPlayer', {
     videoId: 'cOJ2wy8juu4',
-    playerVars: { 
-      autoplay: 0, 
-      loop: 1, 
-      playlist: 'cOJ2wy8juu4', 
-      controls: 0,
-      mute: 0
-    },
-    events: {
-      'onReady': (e) => {
-        e.target.setVolume(100);
-      }
-    }
+    playerVars: { autoplay: 0, loop: 1, playlist: 'cOJ2wy8juu4', controls: 0 }
   });
-}
-
-function toggleMusic(play) {
-  if (!player || typeof player.playVideo !== 'function') return;
-  
-  if (play) {
-    player.playVideo();
-    musicBtn.classList.add('playing');
-    musicPlaying = true;
-  } else {
-    player.pauseVideo();
-    musicBtn.classList.remove('playing');
-    musicPlaying = false;
-  }
 }
 
 btn.addEventListener('click', () => {
   message.classList.toggle('show');
   if (message.classList.contains('show')) {
     launchFireworks();
-    toggleMusic(true);
+    if (!musicPlaying && player) {
+      player.playVideo();
+      musicBtn.classList.add('playing');
+      musicPlaying = true;
+    }
   } else {
-    toggleMusic(false);
+    if (musicPlaying && player) {
+      player.pauseVideo();
+      musicBtn.classList.remove('playing');
+      musicPlaying = false;
+    }
   }
 });
 
 musicBtn.addEventListener('click', () => {
-  toggleMusic(!musicPlaying);
+  if (!player) return;
+  if (musicPlaying) {
+    player.pauseVideo();
+    musicBtn.classList.remove('playing');
+    musicPlaying = false;
+  } else {
+    player.playVideo();
+    musicBtn.classList.add('playing');
+    musicPlaying = true;
+  }
 });
 
-// glitter sparkles layout loop
+// glitter sparkles
 for (let i = 0; i < 40; i++) {
   const glitter = document.createElement('div');
   glitter.className = 'glitter';
@@ -359,3 +335,4 @@ function launchFireworks() {
 </script>
 </body>
 </html>
+
