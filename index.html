@@ -192,15 +192,17 @@
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
-    #ytPlayer {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    opacity: 0.01;
-    pointer-events: none;
-    z-index: -999;
+    /* Decorative Player Box that safely lets YouTube stream music */
+  #ytPlayer {
+    width: 100%;
+    max-width: 320px;
+    height: 180px;
+    margin: 25px auto 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(219, 39, 119, 0.2);
+    border: 3px solid #fbcfe8;
+    display: block;
+    background: #000; /* Sleek background frame */
   }
 
 
@@ -256,6 +258,16 @@ for (let i = 0; i < 20; i++) {
       Again, happy birthday, Ma'am Maki! I hope you get what you want in life like a quantum particle does. 💗✨</p>
 </div>
 
+  <div style="margin-top: 30px; text-align: center;">
+  <iframe id="ytPlayer" 
+          src="https://youtube.com" 
+          frameborder="0" 
+          allow="autoplay; encrypted-media" 
+          allowfullscreen>
+  </iframe>
+</div>
+
+
 <div id="ytPlayer"></div>
 <button id="musicBtn">🎵</button>
 
@@ -266,11 +278,11 @@ const musicBtn = document.getElementById('musicBtn');
 let musicPlaying = false;
 let player;
 
-// Fix: Correctly grab the first script tag to inject the YouTube API safely
+// Securely initialize YouTube API to link with the HTML frame
 const tag = document.createElement('script');
-tag.src = "https://youtube.com";
-const firstScriptTag = document.getElementsByTagName('script')[0]; // Added [0] here to prevent the crash
-if (firstScriptTag && firstScriptTag.parentNode) {
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+if (firstScriptTag) {
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 } else {
   document.head.appendChild(tag);
@@ -278,15 +290,6 @@ if (firstScriptTag && firstScriptTag.parentNode) {
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytPlayer', {
-    videoId: 'DMgAcB0hXn0',
-    playerVars: { 
-      autoplay: 0, 
-      loop: 1, 
-      playlist: 'DMgAcB0hXn0', 
-      controls: 0,
-      start: 5,
-      mute: 0
-    },
     events: {
       'onReady': (e) => {
         e.target.setVolume(100);
@@ -299,7 +302,6 @@ function toggleMusic(play) {
   if (!player || typeof player.playVideo !== 'function') return;
   
   if (play) {
-    player.unMute(); 
     player.playVideo();
     musicBtn.classList.add('playing');
     musicPlaying = true;
@@ -315,6 +317,10 @@ btn.addEventListener('click', () => {
   if (message.classList.contains('show')) {
     launchFireworks();
     toggleMusic(true);
+    // Smooth scroll straight to the letter content on small viewports
+    setTimeout(() => {
+      message.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
   } else {
     toggleMusic(false);
   }
