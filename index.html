@@ -259,18 +259,18 @@ let player;
 
 // YouTube API
 const tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
+tag.src = "https://youtube.com";
 document.body.appendChild(tag);
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytPlayer', {
-    videoId: 'DMgAcB0hXn0',
+    videoId: 'fpQPtVTwxaU',
     playerVars: { 
       autoplay: 0, 
       loop: 1, 
-      playlist: 'DMgAcB0hXn0', 
+      playlist: 'fpQPtVTwxaU', 
       controls: 0,
-      start: 5 // Starts the video at the 5-second mark
+      start: 4 // Starts the video at the 4-second mark
     }
   });
 }
