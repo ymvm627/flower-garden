@@ -2,25 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magical Flower Garden</title>
+<title>A Message For You🌸</title>
 <style>
-  /* Base Reset & Universal Laptop Layout Alignment */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
   body {
     background: linear-gradient(180deg, #ffe4f2, #ffd6ec, #fbcfe8);
     font-family: 'Trebuchet MS', sans-serif;
     text-align: center;
     padding: 50px 20px;
-    min-height: 100vh;
-    height: auto !important; /* Lets the background area expand with text on laptops */
-    overflow-y: auto; /* Restores desktop scrollbars safely */
-    overflow-x: hidden;
+    overflow-x: hidden; /* Changed from hidden to allow natural vertical scrolling if needed */
   }
 
   /* Falling petals */
@@ -83,39 +72,40 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Dropdown message - Completely uncapped for long birthday letters */
+  /* Dropdown message */
   .dropdown {
-    display: none; /* Swapped from max-height rules to fix desktop rendering breaks */
+    overflow: hidden;
+    max-height: 0;
     opacity: 0;
     transform: translateY(-10px);
+    transition: max-height 0.8s ease, padding 0.6s ease, opacity 0.6s ease;
     background: #fff0f6;
     border-radius: 20px;
-    padding: 40px 35px;
-    margin: 30px auto;
-    width: 90%;
-    max-width: 750px; /* Centers the layout nicely on laptop screen canvases */
-    height: auto !important;
-    max-height: none !important; /* Overrides any previous fixed constraints */
+    padding: 0 20px;
+    margin: 30px auto 0 auto;
+    max-width: 700px; /* Centers the letter nicely on desktop screens */
     z-index: 2;
     position: relative;
     box-shadow: 0 0 20px rgba(255,182,193,0.4);
   }
   .dropdown.show {
-    display: block;
-    animation: fadeIn 0.6s ease forwards, sparkle 2s infinite;
+    max-height: 2000px; /* Increased drastically to make sure your full message fits perfectly */
+    padding: 40px 25px;
+    overflow-y: auto; /* Fallback scrollbar just in case it runs on ultra-small screens */
+    animation: fadeIn 1s forwards, sparkle 2s infinite;
   }
   .dropdown h1 {
     font-size: 2.2rem;
-    color: #db2777;
     margin-bottom: 25px;
+    color: #db2777;
   }
   .dropdown p {
     font-size: 1.15rem;
-    line-height: 1.8;
+    line-height: 1.7;
+    text-align: left; /* Makes long letters much easier and cleaner to read */
+    text-indent: 20px; /* Indents paragraphs beautifully */
+    margin-bottom: 15px;
     color: #4b5563;
-    text-align: left; /* Left align provides much smoother layout readability on laptops */
-    text-indent: 30px; /* Beautiful indents at the start of paragraphs */
-    margin-bottom: 20px;
   }
 
   @keyframes fadeIn {
@@ -127,15 +117,11 @@
     50% { box-shadow: 0 0 30px rgba(255,192,203,0.8); }
   }
 
-  /* Mobile/Tablet responsive adjustments */
-  @media (max-width: 768px) {
-    body { padding: 30px 15px; }
-    .dropdown { padding: 30px 20px; }
+  /* Mobile font scaling */
+  @media (max-width: 600px) {
     .dropdown h1 { font-size: 1.8rem; }
-    .dropdown p { font-size: 1.08rem; line-height: 1.7; text-indent: 20px; }
-    #revealButton { font-size: 1.2rem; padding: 14px 28px; }
-    .flower { font-size: 55px; }
-    .flowers { gap: 20px; }
+    .dropdown p { font-size: 1.05rem; }
+    #revealButton { font-size: 1.2rem; padding: 18px 36px; }
   }
 
   /* Glitter sparkles */
@@ -190,13 +176,8 @@
     box-shadow: 0 0 20px #f472b6, 0 0 40px #f472b6;
   }
 
-  /* Original Audio Layout Specifications Restored */
   #ytPlayer {
-    width: 1px; 
-    height: 1px; 
-    opacity: 0; 
-    pointer-events: none; 
-    position: absolute;
+    width: 1px; height: 1px; opacity: 0; pointer-events: none; position: absolute;
   }
 </style>
 </head>
@@ -258,7 +239,7 @@ for (let i = 0; i < 20; i++) {
 <div id="ytPlayer"></div>
 <button id="musicBtn">🎵</button>
 
-  <script>
+<script>
 const btn = document.getElementById('revealButton');
 const message = document.getElementById('message');
 const musicBtn = document.getElementById('musicBtn');
@@ -267,13 +248,19 @@ let player;
 
 // YouTube API
 const tag = document.createElement('script');
-tag.src = "https://youtube.com";
+tag.src = "https://www.youtube.com/iframe_api";
 document.body.appendChild(tag);
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytPlayer', {
-    videoId: 'cOJ2wy8juu4',
-    playerVars: { autoplay: 0, loop: 1, playlist: 'cOJ2wy8juu4', controls: 0 }
+    videoId: 'DMgAcB0hXn0',
+    playerVars: { 
+      autoplay: 0, 
+      loop: 1, 
+      playlist: 'DMgAcB0hXn0', 
+      controls: 0,
+      start: 5 // Starts the video at the 5-second mark
+    }
   });
 }
 
